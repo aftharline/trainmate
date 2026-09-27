@@ -1,0 +1,517 @@
+---
+// Ganti WA_NUMBER dengan nomor coach, mis. "6281234567890". Kosong = wa.me tanpa nomor (tetap jalan, tinggal isi).
+const WA_NUMBER = "";
+const wa = (text: string) => `https://wa.me/6285707109853?text=${encodeURIComponent(text)}`;
+const WA_HYBRID = wa("Halo Trainmate, saya tertarik dengan program Hybrid Starter. Bisa info lebih lanjut?");
+const WA_GENERAL = wa("Halo Trainmate, saya siap memulai program coaching. Bisa bantu analisis target saya?");
+const WA_OFFLINE = wa("Halo Trainmate, saya tertarik dengan program Offline Coaching. Bisa info ketersediaan sesi dan lokasi gym?");
+const WA_ONLINE = wa("Halo Trainmate, saya tertarik mendaftar Online Coaching. Bisa konsultasi dulu?");
+const WA_HALF = wa("Halo Trainmate, saya tertarik dengan program Half Starter (Rp250rb/bln). Bisa info lebih lanjut?");
+const WA_INSIDENTIL = wa("Halo Trainmate, saya mau booking 1 sesi Offline Insidentil (Rp75rb). Kapan jadwal tersedia?");
+const WA_SINGLE = wa("Halo Trainmate, saya mau ambil 1 sesi Online Tunggal (Rp50rb). Bisa info caranya?");
+const FORM_URL = "#pricing"; // ponytail: ganti dengan URL Google Form Client Intake saat sudah ada
+import Icon from '../components/Icon.astro';
+---
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trainmate: Train Better. Progress Together.</title>
+<meta name="description" content="Berhenti berlatih secara acak. Trainmate membantu kamu membangun sistem latihan yang terarah, aman, dan konsisten. Offline, Online, & Hybrid." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<!-- Ganti ID berikut untuk analytics: Google Analytics / Meta Pixel -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script> -->
+<style>
+:root{
+  --bg:#101010; --card:#181818; --card2:#222; --line:#2e2e2e; --line2:#383838;
+  --ink:#f5f5f5; --muted:#9ca3af; --lime:#b7f000; --lime-d:#a3d600; --green:#22c55e;
+  --r:8px; --r-lg:16px; --r-xl:24px; --max:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{font-family:"Plus Jakarta Sans",Inter,sans-serif;line-height:1.1;letter-spacing:-.02em}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 1rem}
+@media(min-width:768px){.wrap{padding:0 1.5rem}}
+section{padding:4rem 0}
+.eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--lime);border:1px solid rgba(183,240,0,.35);background:rgba(183,240,0,.08);border-radius:6px;padding:.35rem .7rem;margin-bottom:1rem}
+.sec-title{font-size:1.75rem;font-weight:800;text-transform:uppercase}
+@media(min-width:768px){.sec-title{font-size:2.5rem}}
+.sec-sub{color:var(--muted);margin-top:.75rem;max-width:42rem}
+/* ticker */
+.ticker{border-bottom:1px solid var(--line);background:#0e0e0e;font-size:11px;letter-spacing:.06em;padding:.5rem 0;color:var(--muted)}
+.ticker .wrap{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.badge-live{border:1px solid rgba(183,240,0,.4);background:rgba(183,240,0,.1);color:var(--lime);font-weight:700;border-radius:4px;padding:.1rem .4rem;font-size:10px}
+.ticker strong{color:#fff}
+/* header */
+header.site{position:sticky;top:0;z-index:40;background:rgba(16,16,16,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:4.25rem;gap:1rem}
+.logo{font-weight:800;font-size:1.2rem;letter-spacing:-.02em;text-decoration:none}
+.logo span{color:var(--lime)}
+.nav-links{display:none;gap:.25rem;background:#141414;border:1px solid var(--line);border-radius:999px;padding:.3rem;font-size:12px}
+.nav-links a{text-decoration:none;color:var(--muted);padding:.45rem .9rem;border-radius:999px}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.06)}
+@media(min-width:1024px){.nav-links{display:flex}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;font-weight:700;border-radius:var(--r);padding:.7rem 1.25rem;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;border:1px solid transparent;cursor:pointer;transition:transform .15s,background .15s}
+.btn:active{transform:scale(.98)}
+.btn-lime{background:var(--lime);color:#101010}
+.btn-lime:hover{background:var(--lime-d)}
+.btn-ghost{background:var(--card);border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{background:var(--card2)}
+.btn-sm{padding:.6rem 1rem}
+/* hero */
+.hero{padding:3rem 0 4rem;text-align:center;position:relative;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:36px 36px}
+.hero::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(700px,90vw);height:300px;background:rgba(183,240,0,.1);filter:blur(130px);pointer-events:none}
+.hero h1{font-size:2.4rem;font-weight:800;text-transform:uppercase;line-height:1}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--lime),#dbff4d,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);max-width:38rem;margin:1rem auto 1.75rem;font-size:1rem}
+@media(min-width:768px){.hero{padding:4.5rem 0 5rem}.hero h1{font-size:4.25rem}.hero p{font-size:1.15rem}}
+.cta-row{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2.5rem}
+@media(min-width:640px){.cta-row{flex-direction:row;justify-content:center}.cta-row .btn{padding:1rem 1.75rem}}
+/* telemetry mock (CSS only, no external image = <3s load) */
+.frame{max-width:880px;margin:0 auto;background:#121317;border:1px solid var(--line2);border-radius:var(--r-lg);overflow:hidden;text-align:left;box-shadow:0 10px 40px -15px rgba(0,0,0,.8)}
+.frame-bar{display:flex;justify-content:space-between;align-items:center;gap:.5rem;padding:.6rem .9rem;background:#0e0f12;border-bottom:1px solid var(--line);font-family:monospace;font-size:10px;color:var(--muted);flex-wrap:wrap}
+.rec{color:var(--lime);border:1px solid rgba(183,240,0,.35);background:rgba(183,240,0,.08);border-radius:4px;padding:.1rem .45rem;font-weight:700}
+.stage{position:relative;min-height:300px;background:#0a0b0e;display:flex;align-items:center;justify-content:center;overflow:hidden}
+@media(min-width:768px){.stage{min-height:420px}}
+.stage img.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.stage::before{content:"";position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:28px 28px}
+.stage::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(10,11,14,.92) 0%,transparent 45%,rgba(0,0,0,.35) 100%)}
+.joint,.hud{z-index:2}
+.joint{position:absolute;top:66%;left:57.5%;transform:translate(-50%,-50%);width:88px;height:88px;border:1px solid rgba(183,240,0,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--lime);font-family:monospace;font-size:11px}
+.joint::after{content:"KNEE 92°";position:absolute;top:-2rem;right:-5.5rem;background:#0e1015;border:1px solid rgba(183,240,0,.5);color:var(--lime);font-size:10px;padding:.15rem .5rem;border-radius:4px;white-space:nowrap}
+@media(max-width:768px){.stage img.hero-img{object-position:70% center}}
+@media(max-width:640px){.joint{width:64px;height:64px}.joint::after{top:calc(100% + .4rem);right:auto;left:50%;transform:translateX(-50%)}.hud{font-size:10px;padding:.5rem .6rem;max-width:62%}}
+.hud{position:absolute;top:.75rem;left:.75rem;background:rgba(0,0,0,.8);border:1px solid var(--line);border-radius:10px;padding:.6rem .75rem;font-size:11px}
+.hud b{color:#fff}.hud .t{color:var(--lime);font-family:monospace}
+.tele{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;padding:.9rem;background:rgba(14,16,21,.95);border-top:1px solid var(--line)}
+@media(min-width:768px){.tele{grid-template-columns:repeat(4,1fr)}}
+.tele small{display:block;color:var(--muted);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.tele b{font-size:.9rem}.tele .up{color:var(--lime);font-size:.75rem}.tele .ok{color:var(--green)}
+.proof{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem 2rem;margin-top:1.5rem;font-size:12px;color:var(--muted);font-family:monospace}
+.proof b{color:var(--lime)}.proof strong{color:#fff}
+/* problem */
+#masalah{background:#0a0b0c;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.grid3{display:grid;gap:1rem;margin-top:2rem;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.5rem;display:flex;flex-direction:column;gap:.75rem}
+.card:hover{border-color:var(--line2)}
+.tag{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:4px;padding:.25rem .55rem;border:1px solid}
+.tag.red{color:#fca5a5;border-color:rgba(248,113,113,.35);background:rgba(248,113,113,.08)}
+.tag.amber{color:#fcd34d;border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.08)}
+.tag.blue{color:#93c5fd;border-color:rgba(96,165,250,.35);background:rgba(96,165,250,.08)}
+.card h3{font-size:1.15rem}
+.quote{background:#0a0b0e;border:1px solid var(--line);border-radius:8px;padding:.75rem;font-size:.8rem;color:#d4d4d4;font-style:italic}
+.quote small{display:block;font-style:normal;color:var(--muted);font-size:10px;margin-bottom:.25rem;font-family:monospace}
+.card p{color:var(--muted);font-size:.9rem}
+.card .foot{margin-top:auto;padding-top:1rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:11px;font-family:monospace;color:var(--muted)}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem;max-width:22rem;font-size:.8rem;color:#d4d4d4}
+.fact b{color:#fff}.fact .t{color:var(--lime);font-family:monospace;font-weight:700}
+.split{display:flex;flex-direction:column;gap:1rem}
+@media(min-width:768px){.split{flex-direction:row;align-items:end;justify-content:space-between}}
+/* method */
+.steps{display:grid;gap:1rem;margin-top:2rem}
+@media(min-width:768px){.steps{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{background:#12141a;border:1px solid var(--line);border-radius:var(--r-lg);padding:1.5rem}
+.step:hover{border-color:rgba(183,240,0,.5)}
+.step .n{font-size:1.6rem;font-weight:800;color:var(--lime)}
+.step .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.step .row span:last-child{font-size:10px;color:var(--muted);font-family:monospace;letter-spacing:.1em}
+.step h4{margin-bottom:.5rem;font-size:1.05rem}
+.step p{color:var(--muted);font-size:.82rem;margin-bottom:1rem}
+.out{background:#0a0b0e;border:1px solid var(--line);border-radius:8px;padding:.6rem;font-size:11px;font-family:monospace;display:flex;gap:.5rem;align-items:center}
+.out i{color:var(--lime);font-style:normal}
+.chart{margin-top:1.5rem;background:#101217;border:1px solid var(--line);border-radius:var(--r-lg);padding:1.25rem}
+@media(min-width:768px){.chart{padding:2rem}}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;font-size:11px;font-family:monospace;color:var(--muted);margin-top:1rem}
+.legend .pill{background:rgba(183,240,0,.1);border:1px solid rgba(183,240,0,.3);color:var(--lime);border-radius:4px;padding:.15rem .5rem;font-weight:700}
+/* pricing */
+#pricing{background:#0a0b0c;border-top:1px solid var(--line)}
+.center{text-align:center}.center .sec-sub{margin-inline:auto}
+.price-grid{display:grid;gap:1.25rem;margin-top:2.5rem;align-items:stretch}
+@media(min-width:1024px){.price-grid{grid-template-columns:repeat(3,1fr)}}
+.price{background:#121418;border:1px solid var(--line);border-radius:24px;padding:1.75rem;display:flex;flex-direction:column}
+.price.hero-price{border:2px solid var(--lime);background:linear-gradient(#181b22,#121419);position:relative;box-shadow:0 0 45px -8px rgba(183,240,0,.35)}
+@media(min-width:1024px){.price.hero-price{transform:translateY(-.75rem)}}
+.ribbon{position:absolute;top:-.8rem;left:50%;transform:translateX(-50%);background:var(--lime);color:#000;font-family:monospace;font-weight:700;font-size:10px;letter-spacing:.1em;padding:.25rem .9rem;border-radius:4px;white-space:nowrap}
+.price h3{font-size:1.5rem;margin:.5rem 0}
+.price .desc{color:var(--muted);font-size:.82rem;margin-bottom:1.25rem}
+.pricebox{background:#0b0c0e;border:1px solid var(--line);border-radius:14px;padding:1rem;margin-bottom:1.25rem}
+.hero-price .pricebox{border-color:rgba(183,240,0,.3)}
+.pricebox small{font-family:monospace;color:var(--muted);font-size:11px}
+.big{font-size:1.6rem;font-weight:800}
+.hero-price .big{font-size:2.2rem;color:var(--lime)}
+.strike{text-decoration:line-through;color:var(--muted);font-size:.8rem;font-family:monospace}
+ul.feat{list-style:none;display:grid;gap:.7rem;font-size:.82rem;margin-bottom:1.5rem;color:#d4d4d4}
+ul.feat li{display:flex;gap:.6rem;align-items:flex-start}
+ul.feat i{color:var(--lime);font-style:normal;font-weight:700}
+.price .btn{margin-top:auto;width:100%}
+/* satuan / single-session row */
+.mini-head{margin-top:2.5rem;text-align:center}
+.mini-head h3{font-size:1.1rem;text-transform:uppercase}
+.mini-head p{color:var(--muted);font-size:.82rem;margin-top:.35rem}
+.mini-grid{display:grid;gap:1rem;margin-top:1.25rem;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))}
+.mini{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.25rem;display:flex;flex-direction:column;gap:.6rem}
+.mini h4{font-size:1rem}
+.mini .per{font-size:1.35rem;font-weight:800;color:var(--lime)}
+.mini .per small{font-size:.7rem;color:var(--muted);font-weight:400}
+.mini p{color:var(--muted);font-size:.8rem}
+.mini ul{list-style:none;display:grid;gap:.4rem;font-size:.78rem;color:#d4d4d4}
+.mini ul li{display:flex;gap:.5rem}
+.mini ul i{color:var(--lime);font-style:normal;font-weight:700}
+.mini .btn{margin-top:auto;width:100%}
+/* icons (lucide inline) */
+.btn svg,.tag svg{flex:none}
+.feat li svg,.mini li svg{color:var(--lime);flex:none;margin-top:2px}
+.card h3{display:flex;align-items:center;gap:.5rem}
+.card h3 svg{color:var(--lime);flex:none}
+.step h4{display:flex;align-items:center;gap:.5rem}
+.step h4 svg{color:var(--lime);flex:none}
+.out svg{color:var(--lime);flex:none}
+.do b{display:flex;align-items:center;gap:.45rem}
+summary svg{color:var(--muted);flex:none;transition:transform .25s}
+details[open] summary svg{transform:rotate(180deg);color:var(--lime)}
+.fgrid a{display:inline-flex;align-items:center;gap:.4rem}
+.pricebox small svg{vertical-align:-2px}
+.src{color:var(--lime);font-family:monospace;font-size:.75rem;text-decoration:none;border-bottom:1px dotted rgba(183,240,0,.5)}
+.src:hover{border-bottom-style:solid}
+/* scrollytelling */
+#data{background:#0a0b0c;border-top:1px solid var(--line)}
+.story{display:grid;gap:1.25rem;margin-top:2.5rem}
+@media(min-width:900px){.story{grid-template-columns:1fr 1.15fr;gap:3rem;align-items:start}}
+.story-visual{position:sticky;top:5rem;background:#12141a;border:1px solid var(--line);border-radius:24px;min-height:300px;display:grid;overflow:hidden}
+@media(max-width:899px){.story-visual{top:4.9rem;min-height:210px}}
+.spanel{grid-area:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;text-align:center;padding:2rem 1.5rem;opacity:0;transform:translateY(18px) scale(.98);transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+.story-visual[data-active="0"] .spanel[data-p="0"],.story-visual[data-active="1"] .spanel[data-p="1"],.story-visual[data-active="2"] .spanel[data-p="2"],.story-visual[data-active="3"] .spanel[data-p="3"]{opacity:1;transform:none}
+.spanel svg{color:var(--lime)}
+.snum{font-family:"Plus Jakarta Sans";font-weight:800;font-size:clamp(3rem,8vw,4.5rem);color:var(--lime);line-height:1;letter-spacing:-.03em}
+.slabel{font-size:.85rem;color:var(--muted);max-width:20rem}
+.story-steps{display:grid;gap:1rem}
+@media(min-width:900px){.sstep{min-height:68vh;display:flex;flex-direction:column;justify-content:center}}
+.sstep{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.5rem}
+.stag{font-family:monospace;font-size:11px;color:var(--lime);letter-spacing:.1em}
+.sstep h3{font-size:1.25rem;margin:.5rem 0}
+.sstep p{color:var(--muted);font-size:.9rem}
+.sstep .src{display:inline-block;margin-top:.9rem}
+/* animations */
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.hero h1{animation:rise .7s ease both;text-wrap:balance}
+.hero .wrap>p{animation:rise .7s .1s ease both}
+.hero .cta-row{animation:rise .7s .2s ease both}
+.hero .frame{animation:rise .8s .3s ease both}
+.hero .proof{animation:rise .8s .4s ease both}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.rv.on{opacity:1;transform:none}
+.card,.step,.mini{transition:transform .25s ease,border-color .25s ease}
+.card:hover,.step:hover,.mini:hover{transform:translateY(-4px)}
+.btn{transition:transform .15s ease,background .15s ease,box-shadow .2s ease}
+.btn-lime:hover{box-shadow:0 0 24px -6px rgba(183,240,0,.5);transform:translateY(-1px)}
+.draw-line{stroke-dasharray:1;stroke-dashoffset:1}
+.draw-line.drawn{transition:stroke-dashoffset 1.8s ease;stroke-dashoffset:0}
+/* responsive fixes */
+section[id]{scroll-margin-top:4.5rem}
+img{max-width:100%}
+.tick-right{display:none}
+@media(min-width:1024px){.tick-right{display:block}}
+@media(max-width:640px){.ticker{font-size:10px}.tick-mid{display:none}}
+@media(max-width:480px){.frame-bar{font-size:9px}.frame-bar .fb-long{display:none}}
+@media(max-width:380px){.hero h1{font-size:2rem}.hero p{font-size:.95rem}.tele{padding:.75rem;gap:.6rem}.tele b{font-size:.8rem}.proof{font-size:11px;gap:.4rem 1.25rem}}
+@media(max-width:400px){.logo{font-size:1.05rem}.btn-sm{padding:.55rem .8rem;font-size:.75rem}.ribbon{font-size:9px;letter-spacing:.06em}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero h1,.hero .wrap>p,.hero .cta-row,.hero .frame,.hero .proof{animation:none}.rv{opacity:1;transform:none;transition:none}.draw-line{stroke-dashoffset:0}.draw-line.drawn{transition:none}.spanel{transition:none}.card:hover,.step:hover,.mini:hover{transform:none}}
+/* transparency */
+.trans{max-width:56rem;margin:0 auto;background:#121419;border:1px solid var(--line);border-radius:24px;padding:2rem;position:relative;overflow:hidden}
+@media(min-width:768px){.trans{padding:3rem}}
+.trans blockquote{border-left:2px solid var(--lime);padding-left:1rem;font-style:italic;color:#d4d4d4;margin:1.25rem 0}
+.two{display:grid;gap:1rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--line)}
+@media(min-width:640px){.two{grid-template-columns:1fr 1fr}}
+.do{background:#090a0d;border-radius:12px;padding:1rem;font-size:.8rem;color:var(--muted)}
+.do b{display:block;font-family:monospace;font-size:.72rem;margin-bottom:.5rem}
+.do.ok{border:1px solid rgba(52,211,153,.25)}.do.ok b{color:#34d399}
+.do.no{border:1px solid rgba(248,113,113,.25)}.do.no b{color:#f87171}
+.do ul{list-style:none;display:grid;gap:.35rem}
+/* faq */
+#faq{background:#090a0c;border-top:1px solid var(--line)}
+.faq-list{max-width:48rem;margin:2rem auto 0;display:grid;gap:.75rem}
+details{background:#121419;border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.25rem;cursor:pointer}
+details[open]{border-color:rgba(183,240,0,.4)}
+summary{font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:1rem;list-style:none}
+summary::-webkit-details-marker{display:none}
+details p{margin-top:.75rem;color:var(--muted);font-size:.88rem}
+/* final */
+.final-box{max-width:56rem;margin:0 auto;background:#13151b;border:1px solid rgba(183,240,0,.3);border-radius:24px;padding:2.5rem 1.5rem;text-align:center;box-shadow:0 0 45px -8px rgba(183,240,0,.35)}
+@media(min-width:768px){.final-box{padding:3.5rem}}
+.final-box p{color:var(--muted);max-width:32rem;margin:1rem auto 1.75rem;font-size:.95rem}
+.micro{margin-top:1.25rem;font-size:11px;font-family:monospace;color:var(--muted)}
+/* footer */
+footer{background:#08090b;border-top:1px solid var(--line);padding:3rem 0 2rem;color:var(--muted);font-size:.8rem}
+.fgrid{display:grid;gap:2rem;padding-bottom:2rem;border-bottom:1px solid var(--line)}
+@media(min-width:768px){.fgrid{grid-template-columns:2fr 1fr 1fr}}
+.fgrid h5{color:#fff;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.75rem;font-family:monospace}
+.fgrid ul{list-style:none;display:grid;gap:.5rem}
+.fgrid a{text-decoration:none}.fgrid a:hover{color:var(--lime)}
+.fbot{display:flex;flex-direction:column;gap:.5rem;align-items:center;justify-content:space-between;padding-top:1.5rem;font-size:11px;font-family:monospace}
+@media(min-width:640px){.fbot{flex-direction:row}}
+</style>
+</head>
+<body>
+
+<div class="ticker"><div class="wrap">
+  <div><span class="badge-live">[STATUS // LIVE]</span> &nbsp;<span class="tick-mid">ACCEPTING FOUNDING COHORT • </span><strong>HANYA TERSISA 3 SLOT MINGGU INI</strong></div>
+  <div class="tick-right">SURABAYA • SIDOARJO • GRESIK</div>
+</div></div>
+
+<header class="site"><div class="wrap nav">
+  <a class="logo" href="#top">TRAIN<span>MATE</span></a>
+  <nav class="nav-links" aria-label="Navigasi">
+    <a href="#metode">01 METODE</a>
+    <a href="#masalah">02 DIAGNOSA</a>
+    <a href="#pricing">03 PAKET &amp; HARGA</a>
+    <a href="#transparansi">04 TRANSPARANSI</a>
+    <a href="#faq">05 FAQ</a>
+  </nav>
+  <a class="btn btn-lime btn-sm" href={WA_GENERAL} target="_blank" rel="noopener"><Icon name="message-circle" size={15} /> Konsultasi WA</a>
+</div></header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero"><div class="wrap">
+  <span class="eyebrow">[ENGINEERED PERFORMANCE] | 1-ON-1 &amp; HYBRID PROGRAM</span>
+  <h1>Train Better.<br /><em>Progress Together.</em></h1>
+  <p>Berhenti berlatih secara acak. Kami membantu kamu membangun sistem latihan yang terarah, aman, dan konsisten.</p>
+  <div class="cta-row">
+    <a class="btn btn-lime" href="#pricing">Mulai Program Kamu <Icon name="arrow-right" size={16} /></a>
+    <a class="btn btn-ghost" href="#metode"><Icon name="clipboard-check" size={16} /> Pelajari Metode Kami</a>
+  </div>
+  <div class="frame" role="img" aria-label="Ilustrasi sesi coaching Trainmate dengan pencatatan beban">
+    <div class="frame-bar"><span>TERMINAL // 01 <span class="fb-long">• SESSION // LIVE FORM ANALYSIS</span></span><span class="rec">[REC // 60 FPS]</span></div>
+    <div class="stage">
+      <img class="hero-img" src="/squat.webp" alt="Coach Trainmate mendampingi klien melakukan goblet squat di gym" fetchpriority="high" width="1376" height="768" />
+      <div class="joint">+</div>
+      <div class="hud"><div style="font-family:monospace;color:var(--muted);font-size:10px">[PRIMARY TARGET]</div><b>Goblet Squat (Tempo 3-1-1)</b><div class="t">TUT: 45s / SET</div></div>
+    </div>
+    <div class="tele">
+      <div><small>Load Weight</small><b>24.0 KG <span class="up">(+2.5kg PR)</span></b></div>
+      <div><small>Knee Valgus Risk</small><b class="ok"><Icon name="check" size={14} /> 0% STABLE</b></div>
+      <div><small>Target Intensity</small><b>RPE 7.5</b></div>
+      <div><small>Data Telemetry</small><b style="color:var(--lime);font-family:monospace;font-size:.75rem">SYNCED TO SHEET</b></div>
+    </div>
+  </div>
+  <div class="proof">
+    <span><b>[VERIFIED]</b> <strong>120+ Lifter Aktif</strong></span>
+    <span><b>[ZERO INJURY]</b> <strong>98.4% Bebas Cedera</strong></span>
+    <span><b>[NO BIND]</b> <strong>Zero Kontrak Terikat</strong></span>
+  </div>
+</div></section>
+
+<!-- PROBLEM -->
+<section id="masalah"><div class="wrap">
+  <div class="split">
+    <div>
+      <span class="eyebrow" style="color:#fca5a5;border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.07)">[AUDIT: SYSTEM FAULTS] Diagnosa masalah umum</span>
+      <h2 class="sec-title">Memulai gym itu mudah. Bertahan dan melihat hasilnya, itu yang sulit.</h2>
+    </div>
+    <div class="fact"><span class="t">FAKTA LAPANGAN</span><p>Hampir <b>setengah member baru berhenti dalam 6 bulan pertama</b>, bukan karena malas, tapi karena minim arahan. <a class="src" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5094673/" target="_blank" rel="noopener">Hooker et al. 2016 ↗</a></p></div>
+  </div>
+  <div class="grid3">
+    <div class="card"><span class="tag red">[FAULT 01] Random Workouts</span><h3><Icon name="activity" size={20} /> Latihan Acak &amp; Gonta-Ganti Mesin</h3>
+      <div class="quote"><small>[TRANSCRIPT PRE-COACHING]</small>"Aku nggak tahu harus latihan apa hari ini."</div>
+      <p>Datang tanpa program harian. Memilih alat yang kosong, menguras tenaga tanpa progressive overload yang konsisten.</p>
+      <div class="foot"><span>Efisiensi: Sangat Rendah</span><span>[RC-01]</span></div></div>
+    <div class="card"><span class="tag amber">[FAULT 02] Form Anxiety</span><h3><Icon name="shield-check" size={20} /> Ragu Teknik &amp; Takut Cedera</h3>
+      <div class="quote"><small>[TRANSCRIPT PRE-COACHING]</small>"Aku takut tekniknya salah dan malah cedera."</div>
+      <p>Tegang memegang barbell, takut dihakimi, tidak tahu apakah posisi lutut, scapula, dan napas sudah tepat.</p>
+      <div class="foot"><span>Risiko: Lumbar &amp; Knee</span><span>[RC-02]</span></div></div>
+    <div class="card"><span class="tag blue">[FAULT 03] Lost Track</span><h3><Icon name="chart-line" size={20} /> Latihan Keras Tanpa Data Progres</h3>
+      <div class="quote"><small>[TRANSCRIPT PRE-COACHING]</small>"Latihan terus, tapi nggak tahu seberapa jauh progresnya."</div>
+      <p>Tidak ada catatan set, repetisi, dan beban minggu lalu. Tubuh tidak pernah dipaksa beradaptasi secara ilmiah.</p>
+      <div class="foot"><span>Hasil: Muscle Plateau</span><span>[RC-03]</span></div></div>
+  </div>
+</div></section>
+
+<!-- DATA / SCROLLYTELLING -->
+<section id="data"><div class="wrap">
+  <div class="center"><span class="eyebrow">[DATA BERBICARA]</span>
+    <h2 class="sec-title">Angka Tidak Berbohong.</h2>
+    <p class="sec-sub">Scroll pelan-pelan. Empat temuan riset yang jadi alasan Trainmate ada.</p>
+  </div>
+  <div class="story">
+    <figure class="story-visual" data-active="0" style="margin:0">
+      <div class="spanel" data-p="0"><span class="snum">±50%</span><Icon name="users" size={30} /><span class="slabel">member baru berhenti dalam 6 bulan pertama</span></div>
+      <div class="spanel" data-p="1"><span class="snum">−66%</span><Icon name="shield-check" size={30} /><span class="slabel">risiko cedera dengan strength training terstruktur</span></div>
+      <div class="spanel" data-p="2"><span class="snum">&lt;1</span><Icon name="dumbbell" size={30} /><span class="slabel">cedera per 1.000 jam traditional strength training</span></div>
+      <div class="spanel" data-p="3"><span class="snum">SUP&gt;P</span><Icon name="clipboard-check" size={30} /><span class="slabel">latihan terbimbing mengalahkan latihan mandiri</span></div>
+    </figure>
+    <div class="story-steps">
+      <article class="sstep" data-s="0"><span class="stag">[TEMUAN 01]</span><h3>Separuh member baru menyerah sebelum 6 bulan.</h3><p>Bukan karena malas. Studi 441 member menunjukkan minimnya arahan bikin orang berhenti. Data IHRSA (1,5 juta member): 47,5% membatalkan membership, dan usia 16–24 tahun hanya 37% yang bertahan 24 bulan.</p><a class="src" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5094673/" target="_blank" rel="noopener">Hooker et al. 2016, PMC ↗</a> <a class="src" href="https://www.fittechglobal.com/fit-tech-features/IHRSA-update-One-million-strong/30115" target="_blank" rel="noopener">IHRSA One Million Strong ↗</a></article>
+      <article class="sstep" data-s="1"><span class="stag">[TEMUAN 02]</span><h3>Latihan kekuatan terstruktur memangkas cedera hingga dua pertiga.</h3><p>Meta-analisis 7.738 partisipan: program strength training yang terprogram menurunkan cedera akut dan overuse secara dose-dependent. Makin konsisten dijalankan, makin protektif.</p><a class="src" href="https://bjsm.bmj.com/content/52/24/1557" target="_blank" rel="noopener">Lauersen et al. 2018, BJSM ↗</a></article>
+      <article class="sstep" data-s="2"><span class="stag">[TEMUAN 03]</span><h3>Traditional strength training = cara teraman angkat beban.</h3><p>Systematic review 2023: angka cedera hanya ~0,24–1 per 1.000 jam, jauh di bawah lari (2–10× lipat) dan sepak bola (6–10 per 1.000 jam). Teknik terkontrol, bukan ego.</p><a class="src" href="https://www.nsca.com/education/articles/ptq/the-safest-and-riskiest-forms-of-resistance-training/" target="_blank" rel="noopener">NSCA 2026, ringkasan riset ↗</a></article>
+      <article class="sstep" data-s="3"><span class="stag">[TEMUAN 04]</span><h3>Didampingi coach hasilnya lebih besar.</h3><p>Meta-analisis: latihan dengan supervisi menghasilkan kenaikan kekuatan lebih besar dibanding latihan mandiri. Mayoritas cedera bermula dari teknik yang buruk dan tanpa pendampingan yang qualified.</p><a class="src" href="https://mmu-eprints-repo-prod.mmu-eprints.cdl.cosector.com/632777/1/Fisher%20et%20al.%20%282022%29%20supervision%20paper%20IJSC.pdf" target="_blank" rel="noopener">Fisher et al. 2022 ↗</a> <a class="src" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3483033/" target="_blank" rel="noopener">Faigenbaum, PMC ↗</a></article>
+    </div>
+  </div>
+</div></section>
+
+<!-- METHOD -->
+<section id="metode"><div class="wrap">
+  <div class="center"><span class="eyebrow">[ARCHITECTURE FRAMEWORK]</span>
+    <h2 class="sec-title">A Better Way to Train.</h2>
+    <p class="sec-sub">Latihan yang baik bukan sekadar bekerja keras. Tapi tentang struktur, konsistensi, dan evaluasi.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="row"><span class="n">01</span><span>[ASSESS]</span></div><h4><Icon name="users" size={18} /> Assess</h4><p>Memahami titik awal, tujuan, dan batasanmu: mobilitas, riwayat cedera, waktu mingguan.</p><div class="out"><Icon name="arrow-right" size={13} /> Output: Baseline Report</div></div>
+    <div class="step"><div class="row"><span class="n">02</span><span>[PLAN]</span></div><h4><Icon name="calendar-check" size={18} /> Plan</h4><p>Menyusun struktur latihan personal: split realistis sesuai profil biomekanikmu.</p><div class="out"><Icon name="arrow-right" size={13} /> Output: Custom Program Sheet</div></div>
+    <div class="step"><div class="row"><span class="n">03</span><span>[TRAIN]</span></div><h4><Icon name="dumbbell" size={18} /> Train</h4><p>Eksekusi latihan dengan teknik yang tepat: bracing, tempo 3-1-1, jalur bar ideal.</p><div class="out"><Icon name="arrow-right" size={13} /> Output: 1-on-1 + Video Breakdown</div></div>
+    <div class="step"><div class="row"><span class="n">04</span><span>[TRACK]</span></div><h4><Icon name="chart-line" size={18} /> Track</h4><p>Mencatat repetisi, beban, dan tingkat kesulitan (RPE) setiap set via smartphone.</p><div class="out"><Icon name="arrow-right" size={13} /> Output: Tonnage &amp; PR Tracking</div></div>
+    <div class="step"><div class="row"><span class="n">05</span><span>[ADAPT]</span></div><h4><Icon name="trending-up" size={18} /> Adapt</h4><p>Menyesuaikan program berdasarkan data mingguan: deload &amp; scaling tanpa asumsi.</p><div class="out"><Icon name="arrow-right" size={13} /> Output: Weekly Adjustment</div></div>
+    <div class="step"><div class="row"><span class="n">06</span><span>[PROGRESS]</span></div><h4><Icon name="sparkles" size={18} /> Progress</h4><p>Membangun hasil nyata secara bertahap: mandiri di gym mana pun, seumur hidup.</p><div class="out"><Icon name="arrow-right" size={13} /> Output: Autonomous Mastery</div></div>
+  </div>
+  <div class="chart">
+    <span class="eyebrow">[ENGINEERED PROGRESSION MODEL]</span>
+    <h3 style="font-size:1.3rem">Simulasi Volume Load: Trainmate vs Latihan Acak</h3>
+    <svg viewBox="0 0 1000 240" fill="none" role="img" aria-label="Grafik progres volume latihan naik vs plateau">
+      <path d="M0,190 Q200,180 400,185 T700,190 T1000,185" stroke="#4b5563" stroke-dasharray="6,6" stroke-width="2"/>
+      <path class="draw-line" pathLength="1" d="M0,200 L150,170 L300,150 L450,115 L600,85 L750,120 L900,50 L1000,30" stroke="#b7f000" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M0,200 L150,170 L300,150 L450,115 L600,85 L750,120 L900,50 L1000,30 L1000,240 L0,240 Z" fill="#b7f000" opacity=".12"/>
+    </svg>
+    <div class="legend"><span>━ Trainmate (naik)</span><span>- - Latihan acak (plateau)</span><span class="pill">+24.8% NET ADAPTATION</span></div>
+  </div>
+</div></section>
+
+<!-- PRICING -->
+<section id="pricing"><div class="wrap">
+  <div class="center"><span class="eyebrow">[TIER ARCHITECTURE] Tanpa biaya tersembunyi</span>
+    <h2 class="sec-title">Pilih Cara Berlatihmu.</h2>
+    <p class="sec-sub">Transparan, tanpa paksaan suplemen. Kamu hanya membayar pendampingan dan keahlian coach.</p>
+  </div>
+  <div class="price-grid">
+    <div class="price"><span class="tag" style="color:var(--muted);border-color:var(--line)">[EXCLUSIVE IN-PERSON]</span>
+      <h3>Offline Coaching</h3><p class="desc">Sesi tatap muka untuk fondasi teknik. Ideal untuk pemula yang ingin diawasi setiap repetisi.</p>
+      <div class="pricebox"><small>STRUKTUR PAKET</small><div class="big">Paket 8 / 12 Sesi</div><small><Icon name="map-pin" size={12} /> Masa aktif fleksibel • Surabaya, Sidoarjo &amp; Gresik</small></div>
+      <ul class="feat"><li><Icon name="check" size={15} /><span><b>1-on-1 Full Attention</b> 60–75 menit per sesi.</span></li><li><Icon name="check" size={15} /><span><b>Realtime Cueing</b> koreksi pinggang, lutut, bahu.</span></li><li><Icon name="check" size={15} /><span><b>Workout Log Sheet</b> personal rapi.</span></li><li><Icon name="check" size={15} /><span><b>Konsultasi WA</b> nutrisi &amp; recovery.</span></li></ul>
+      <a class="btn btn-ghost" href={WA_OFFLINE} target="_blank" rel="noopener">Tanya Ketersediaan Sesi</a></div>
+    <div class="price hero-price"><span class="ribbon">[MOST EFFICIENT // BEST VALUE]</span>
+      <span class="tag" style="color:var(--lime);border-color:rgba(183,240,0,.35);margin-top:.5rem">[FOUNDING COHORT // OPEN]</span>
+      <h3>Hybrid Starter</h3><p class="desc">Kombinasi sempurna pendampingan langsung dan kemandirian. Formula paling efektif.</p>
+      <div class="pricebox"><span class="strike">Rp550.000</span><div class="big">Rp500.000 <small style="color:var(--muted)">/ bulan</small></div><small>Hanya ~<b style="color:#fff">Rp41.000 per hari latihan</b> • Founding Price</small></div>
+      <ul class="feat"><li><Icon name="check" size={15} /><span><b>4x Sesi Offline</b> langsung bersama Coach.</span></li><li><Icon name="check" size={15} /><span><b>4x Online Check-ins</b> video breakdown via WA.</span></li><li><Icon name="check" size={15} /><span><b>Personalized Program</b> + Workout Tracker.</span></li><li><Icon name="check" size={15} /><span><b>Weekly Review &amp; RPE Audit</b> tiap pekan.</span></li><li><Icon name="check" size={15} /><span><b>Prioritas Respons WA 7 hari.</b></span></li></ul>
+      <a class="btn btn-lime" href={WA_HYBRID} target="_blank" rel="noopener">Ambil Paket Hybrid <Icon name="arrow-right" size={16} /></a></div>
+    <div class="price"><span class="tag" style="color:var(--muted);border-color:var(--line)">[REMOTE WORLDWIDE]</span>
+      <h3>Online Coaching</h3><p class="desc">Sistem remote coaching untuk kamu yang sudah paham teknik dasar.</p>
+      <div class="pricebox"><small>BIAYA BERLANGGANAN</small><div class="big">Monthly Retainer</div><small>Full async feedback • Tanpa batas jarak</small></div>
+      <ul class="feat"><li><Icon name="check" size={15} /><span><b>Weekly Async Video Analysis</b> via WA.</span></li><li><Icon name="check" size={15} /><span><b>Full Training OS Spreadsheet</b> periodisasi bulanan.</span></li><li><Icon name="check" size={15} /><span><b>Weekly Check-in</b> evaluasi &amp; target PR.</span></li><li><Icon name="check" size={15} /><span><b>Direct WhatsApp Guidance</b> harian.</span></li></ul>
+      <a class="btn btn-ghost" href={WA_ONLINE} target="_blank" rel="noopener">Pilih Online Coaching</a></div>
+  </div>
+  <div class="mini-head"><span class="eyebrow">[SESI FLEKSIBEL // SATUAN]</span>
+    <h3>Mulai Kecil, Coba Dulu.</h3>
+    <p>Tidak siap komitmen bulanan? Ambil versi setengah atau sesi tunggal.</p>
+  </div>
+  <div class="mini-grid">
+    <div class="mini"><span class="tag" style="color:var(--lime);border-color:rgba(183,240,0,.35)">[HYBRID SETENGAH]</span>
+      <h4>Half Starter</h4><div class="per">Rp250.000 <small>/ bulan</small></div>
+      <p>Setengah porsi Hybrid Starter: separuh sesi, separuh harga.</p>
+      <ul><li><Icon name="check" size={15} /><span><b>2x Sesi Offline</b> bersama Coach.</span></li><li><Icon name="check" size={15} /><span><b>2x Online Check-ins</b> via WA.</span></li><li><Icon name="check" size={15} /><span><b>Program + Tracker</b> periode 2 minggu.</span></li><li><Icon name="check" size={15} /><span><b>2x Review/bulan</b> &amp; respons WA 3 hari.</span></li></ul>
+      <a class="btn btn-lime" href={WA_HALF} target="_blank" rel="noopener">Ambil Half Starter</a></div>
+    <div class="mini"><span class="tag" style="color:var(--muted);border-color:var(--line)">[OFFLINE // 1 SESI]</span>
+      <h4>Offline Insidentil</h4><div class="per">Rp75.000 <small>/ sesi</small></div>
+      <p>Satu sesi tatap muka, bayar per kedatangan.</p>
+      <ul><li><Icon name="check" size={15} /><span><b>1x Sesi 1-on-1</b> 60–75 menit.</span></li><li><Icon name="check" size={15} /><span><b>Realtime Cueing</b> teknik &amp; form.</span></li><li><Icon name="check" size={15} /><span>Tiket gym ditanggung mandiri.</span></li></ul>
+      <a class="btn btn-ghost" href={WA_INSIDENTIL} target="_blank" rel="noopener">Booking 1 Sesi</a></div>
+    <div class="mini"><span class="tag" style="color:var(--muted);border-color:var(--line)">[ONLINE // 1 SESI]</span>
+      <h4>Online Tunggal</h4><div class="per">Rp50.000 <small>/ sesi</small></div>
+      <p>Satu kali evaluasi jarak jauh, tanpa langganan.</p>
+      <ul><li><Icon name="check" size={15} /><span><b>1x Video Form Breakdown</b> async.</span></li><li><Icon name="check" size={15} /><span><b>1x Penyesuaian Program</b> tertulis.</span></li><li><Icon name="check" size={15} /><span>Tanya jawab WA 1x24 jam.</span></li></ul>
+      <a class="btn btn-ghost" href={WA_SINGLE} target="_blank" rel="noopener">Ambil 1 Sesi</a></div>
+  </div>
+</div></section>
+
+<!-- TRANSPARENCY -->
+<section id="transparansi"><div class="wrap">
+  <div class="trans">
+    <span class="eyebrow">[ETHICAL FITNESS PLEDGE]</span>
+    <h2 class="sec-title" style="font-size:1.6rem">Kejujuran adalah Fondasi Kami.</h2>
+    <blockquote>"Industri fitness dipenuhi janji sixpack 30 hari. Kami menolak itu. Kami partner latihanmu yang berdiri pada bukti dan kejujuran biomekanika."</blockquote>
+    <p style="color:var(--muted);font-size:.9rem">Kami percaya pada progres yang transparan. Trainmate berfokus pada edukasi dasar latihan beban, teknik, dan accountability. Kami bukan layanan rehabilitasi medis. Coach kami memandu berdasarkan pengalaman praktis dua tahun yang terdokumentasi dan terus berkembang menuju sertifikasi profesional. Keamanan dan progres riil kamu adalah prioritas mutlak kami.</p>
+    <div class="two">
+      <div class="do ok"><b><Icon name="check" size={13} /> STANDAR YANG KAMI JALANKAN</b><ul><li>• Form over ego, teknik nomor satu.</li><li>• Logging repetisi &amp; volume terukur.</li><li>• Penjelasan logika biomekanik tiap gerakan.</li></ul></div>
+      <div class="do no"><b><Icon name="x" size={13} /> TIDAK AKAN KAMI LAKUKAN</b><ul><li>• TIDAK janji fat loss instan 10kg/2 minggu.</li><li>• TIDAK paksa beli suplemen mahal.</li><li>• TIDAK biarkan latihan sampai cedera.</li></ul></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- FAQ -->
+<section id="faq"><div class="wrap">
+  <div class="center"><span class="eyebrow">[FAQ]</span><h2 class="sec-title">Pertanyaan Umum</h2></div>
+  <div class="faq-list">
+    <details open><summary>Pemula total, belum pernah ke gym. Aman?<Icon name="chevron-down" size={18} /></summary><p>Sangat aman. 70% klien mulai dari nol. Program dimulai dari adaptasi anatomis, kalistenik ringan, dumbbell ringan, hingga percaya diri memegang barbell.</p></details>
+    <details><summary>Di gym mana sesi offline dilakukan?<Icon name="chevron-down" size={18} /></summary><p>Fleksibel: gym langgananmu, gym apartemen, atau gym mitra di Surabaya, Sidoarjo, dan Gresik. Tiket gym ditanggung mandiri.</p></details>
+    <details><summary>Jadwal kerja dinamis, bisa?<Icon name="chevron-down" size={18} /></summary><p>Bisa. Paket Hybrid fleksibel: latihan mandiri via panduan WA saat sibuk, tatap muka saat longgar. Reschedule H-1 tanpa hangus.</p></details>
+    <details><summary>Harus beli suplemen (whey/creatine)?<Icon name="chevron-down" size={18} /></summary><p>Tidak wajib. Fondasi = whole foods (ayam, telur, tempe, tahu, nasi, sayur). Suplemen opsional jika protein harian kurang.</p></details>
+  </div>
+</div></section>
+
+<!-- FINAL CTA -->
+<section><div class="wrap">
+  <div class="final-box">
+    <span class="eyebrow">[FOUNDING COHORT // FINAL CALL]</span>
+    <h2 class="sec-title">Siap membangun sistem latihanmu?</h2>
+    <p>Slot untuk Founding Clients sangat terbatas agar kualitas pendampingan tetap maksimal.</p>
+    <div class="cta-row" style="margin-bottom:0">
+      <a class="btn btn-lime" href={WA_GENERAL} target="_blank" rel="noopener"><Icon name="message-circle" size={16} /> Konsultasi Sekarang (WhatsApp)</a>
+      <a class="btn btn-ghost" href={FORM_URL}><Icon name="clipboard-check" size={16} /> Isi Form Assessment</a>
+    </div>
+    <div class="micro">[FREE INTAKE AUDIT • RESPONSE &lt; 2 HOURS]</div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div><a class="logo" href="#top" style="color:#fff">TRAIN<span>MATE</span></a>
+      <p style="max-width:22rem;margin-top:.75rem">Your Training Partner. Coaching berbasis biomekanik, progres terukur, dan kemandirian atletis seumur hidup.</p>
+      <p style="font-family:monospace;font-size:11px;margin-top:.75rem"><b style="color:var(--lime)">[BUILD: OS-v2.4]</b> SURABAYA / SIDOARJO / GRESIK</p></div>
+    <div><h5>Navigasi Sistem</h5><ul><li><a href="#metode">01. Training OS</a></li><li><a href="#masalah">02. Diagnosa</a></li><li><a href="#pricing">03. Paket Hybrid</a></li><li><a href="#transparansi">04. Transparansi</a></li><li><a href="#faq">05. FAQ</a></li></ul></div>
+    <div><h5>Komunikasi Langsung</h5><ul><li><a href={WA_GENERAL} target="_blank" rel="noopener"><Icon name="message-circle" size={14} /> WhatsApp Priority Desk</a></li><li><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram @trainmate.id</a></li><li>Senin–Sabtu, 06.00–21.00 WIB</li></ul></div>
+  </div>
+  <div class="fbot"><span>© 2026 TRAINMATE INDONESIA.</span><span>[NO SCAM SUPPLEMENTS] • [ZERO BRO-SCIENCE] • <b style="color:var(--lime)">[PRECISION CRAFTED]</b></span></div>
+</div></footer>
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+  // reveal-on-scroll: otomatis untuk kartu & modul (tanpa edit HTML per elemen)
+  var els = document.querySelectorAll('.card,.step,.price,.mini,#faq details,.trans,.final-box,.chart,.frame,.fact,.sstep');
+  els.forEach(function(el){ el.classList.add('rv'); });
+  if(!reduce && hasIO){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e,i){ if(e.isIntersecting){ var t = e.target; t.style.transitionDelay = ((Array.prototype.indexOf.call(t.parentNode.children, t) % 3) * 90) + 'ms'; t.classList.add('on'); io.unobserve(t); setTimeout(function(){ t.style.transitionDelay = ''; }, 800); } });
+    },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el){ io.observe(el); });
+    // scrollytelling: langkah aktif menggerakkan visual sticky
+    var fig = document.querySelector('.story-visual');
+    var steps = document.querySelectorAll('.sstep');
+    if(fig && steps.length){
+      var so = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ fig.setAttribute('data-active', e.target.getAttribute('data-s')); } });
+      },{rootMargin:'-45% 0px -45% 0px'});
+      steps.forEach(function(s){ so.observe(s); });
+    }
+    // chart menggambar sendiri saat terlihat
+    var line = document.querySelector('.draw-line');
+    if(line){
+      var co = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if(e.isIntersecting){ line.classList.add('drawn'); co.disconnect(); } });
+      },{threshold:.4});
+      co.observe(line);
+    }
+  } else {
+    els.forEach(function(el){ el.classList.add('on'); });
+    var l = document.querySelector('.draw-line'); if(l){ l.classList.add('drawn'); }
+  }
+})();
+</script>
+</body>
+</html>
